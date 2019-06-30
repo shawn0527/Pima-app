@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   # get '/home', to: 'home#index' authentication controller
 
   get '/users', to: 'users#index'
+  post '/login', to: 'users#login'
   get '/users/:id', to: 'users#show'
-  post '/users', to: 'users#create'
+  post '/register', to: 'users#create'
   patch '/users/:id', to: 'users#update'
 
   get '/stocks', to: 'stocks#index'
