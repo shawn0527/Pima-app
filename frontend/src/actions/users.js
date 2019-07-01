@@ -1,13 +1,13 @@
-export const addUser = user => {
+export const userLogin = userData => {
     return {
-        type: 'ADD_USER',
-        user
+        type: 'LOGGEDIN_USER',
+        userData
     }
 }
 
-export const editUser = user => {
+export const editUser = userData => {
     return {
         type: 'EDIT_USER',
-        user
+        userData
     }
 }

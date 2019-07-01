@@ -1,9 +1,9 @@
 export default (state = {}, action) => {
     switch(action.type) {
-        case 'ADD_USER':
-            return action.user
+        case 'LOGGEDIN_USER':
+            return action.userData
         case 'EDIT_USER':
-            return action.user
+            return action.userData
         default:
             return state
     }

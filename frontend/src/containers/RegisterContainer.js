@@ -1,14 +1,10 @@
 import React from 'react'
 import {Form, Container, Button} from 'semantic-ui-react'
+import {userLogin} from '../actions/users'
+import {connect} from 'react-redux'
 const url = 'http://localhost:3000/register'
 
 class Register extends React.Component {
-
-  state = {
-    username: '',
-    password: '',
-    password_confirmation: ''
-  }
 
   handleChange = e => {
     this.setState({
@@ -24,12 +20,20 @@ class Register extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        user: {
-          username: this.state.username,
-          password: this.state.password,
-          password_confirmation: this.state.password_confirmation
-        }
+        username: this.state.username,
+        password: this.state.password,
+        password_confirmation: this.state.password_confirmation,
+        firstname: this.state.firstname,
+        middlename: this.state.middlename,
+        lastname: this.state.lastname,
+        email: this.state.email,
+        mailing: this.state.mailing
       })
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.props.userLogin(data)
+        return this.props.history.push(`/${data.user.username}`)
     })
   }
 
@@ -57,16 +61,19 @@ class Register extends React.Component {
               onChange={(e) => this.handleChange(e)}/>
           </Form.Group>
           <Form.Group unstackable widths={2}>
-            <Form.Input label='First name' placeholder='First name'/>
-            <Form.Input label='Middle name' placeholder='Middle name'/>
-            <Form.Input label='Last name' placeholder='Last name'/>
+            <Form.Input label='First name' name='firstname' placeholder='First name' onChange={(e) => this.handleChange(e)}/>
+            <Form.Input label='Middle name' name='middlename' placeholder='Middle name' onChange={(e) => this.handleChange(e)}/>
+            <Form.Input label='Last name' name='lastname' placeholder='Last name' onChange={(e) => this.handleChange(e)}/>
           </Form.Group>
           <Form.Group widths={2}>
-            <Form.Input label='Email Address' placeholder='Email Address'/>
+            <Form.Input label='Email Address' name='email' placeholder='Email Address' onChange={(e) => this.handleChange(e)}/>
             <Form.Input label='Re-enter Email' placeholder='Email Address'/>
           </Form.Group>
           <Form.Group widths={2}>
-            <Form.Input label='Mailing Address' placeholder='Mailing Address'/>
+            <Form.Input
+              label='Mailing Address'
+              name='mailing'
+              placeholder='Mailing Address' onChange={(e) => this.handleChange(e)}/>
             <Form.Input label='Mailing Address 2' placeholder='(option)'/>
           </Form.Group>
           <Form.Group widths={2}>
@@ -83,4 +90,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register
+export default connect(state => state.userData, {userLogin})(Register)

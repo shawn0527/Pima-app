@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation], firstname: params[:firstname], middlename: params[:middlename], lastname: params[:lastname], email: params[:email], mailing: params[:mailing])
     if @user.valid?
       @user.save
       @token = encode_token({user_id: @user.id})
@@ -32,8 +32,8 @@ class UsersController < ApplicationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:id, :username, :password, :password_confirmation, :firstname, :middlename, :lastname, :email, :mailing)
-  end
+  # def user_params
+  #   params.require(:user).permit(:id, :username, :password, :password_confirmation, :firstname, :middlename, :lastname, :email, :mailing)
+  # end
 
 end

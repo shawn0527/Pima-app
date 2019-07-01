@@ -1,5 +1,7 @@
-export default (state = [], action) => {
+export default (state = {stocks: {allStocks: [], myStocks: [], recStocks: []}, }, action) => {
     switch(action.type) {
+        case 'ALL_STOCKS':
+            return {...state, stocks: {...state.stocks, allStocks: action.allStocks}}
         case 'ADD_STOCK':
             return [...state, action.stock]
         case 'EDIT_STOCK':

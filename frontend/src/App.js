@@ -11,6 +11,10 @@ import RealEstate from './containers/RealEstateContainer'
 import Investment from './containers/InvestmentContainer'
 
 class App extends React.Component {
+  state={
+    user: {}
+  }
+
   render() {
     return (
       <Router>
@@ -20,11 +24,10 @@ class App extends React.Component {
           <Route exact path='/' component={Index}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/register' component={Register}/>
-          {/* :username to go sepcific user's HomePage */}
-          <Route exact path='/user' component={HomePage}/>
-          <Route exact path='/user/stocks' component={Stock}/>
-          <Route exact path='/user/realestates' component={RealEstate}/>
-          <Route exact path='/user/investments' component={Investment}/>
+          <Route exact path='/:username' component={HomePage}/>
+          <Route exact path='/:username/stocks' component={Stock}/>
+          <Route exact path='/:username/realestates' component={RealEstate}/>
+          <Route exact path='/:username/investments' component={Investment}/>
         </Switch>
         </React.Fragment>
       </Router>
