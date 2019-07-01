@@ -1,4 +1,6 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
+    before_action :authorized
+
     def encode_token(payload) #payload is a hash(object) eg {'user_id': user.id}
         @token = JWT.encode(payload, 'pima') #issue a token, store payload in token
     end
@@ -19,6 +21,7 @@ class ApplicationController < ActionController::Base
     end
 
     def current_user
+        byebug
         if decoded_token
             user_id = decoded_token[0][0]
             @user = User.find(user_id)
@@ -32,6 +35,6 @@ class ApplicationController < ActionController::Base
     end
 
     def authorized
-        render json: {message: 'Please log in'} unless logged_in
+        render json: {message: 'Please log in'} unless logged_in?
     end
 end

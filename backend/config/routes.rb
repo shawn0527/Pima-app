@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   # get '/home', to: 'home#index' authentication controller
-
+  # resources :cors
+  # match '/', :to => proc {|env| [200, {'Content-Type' => 'text/plain'}, ["Hello world"]] },
+  #            :via => [:get, :post, :put, :delete, :options, :head, :patch]
+             
   get '/users', to: 'users#index'
-  post '/login', to: 'users#login'
-  get '/users/:id', to: 'users#show'
+  post '/login', to: 'auth#login'
+  get '/:username', to: 'users#show'
   post '/register', to: 'users#create'
-  patch '/users/:id', to: 'users#update'
+  patch '/:username', to: 'users#update'
 
   get '/stocks', to: 'stocks#index'
   get '/stocks/:id', to: 'stocks#show'

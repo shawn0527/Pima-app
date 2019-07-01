@@ -1,10 +1,10 @@
 import React from 'react'
 import {Form, Container, Button} from 'semantic-ui-react'
-const url = 'http://http://localhost:3000/register'
+const url = 'http://localhost:3000/register'
 
 class Register extends React.Component {
 
-  state={
+  state = {
     username: '',
     password: '',
     password_confirmation: ''
@@ -12,7 +12,7 @@ class Register extends React.Component {
 
   handleChange = e => {
     this.setState({
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value
     })
   }
 
@@ -21,12 +21,14 @@ class Register extends React.Component {
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type':'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-        password_confirmation: this.state.password_confirmation
+        user: {
+          username: this.state.username,
+          password: this.state.password,
+          password_confirmation: this.state.password_confirmation
+        }
       })
     })
   }
@@ -36,9 +38,23 @@ class Register extends React.Component {
       <Container>
         <Form onSubmit={e => this.register(e)}>
           <Form.Group unstackable widths={2}>
-            <Form.Input label='Username' placeholder='Username' name='username' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Password' placeholder='Password' name='password' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Password Confirmation' placeholder='Re-enter Password' name='password_confirmation' onChange={(e) => this.handleChange(e)}/>
+            <Form.Input
+              label='Username'
+              placeholder='Username'
+              name='username'
+              onChange={(e) => this.handleChange(e)}/>
+            <Form.Input
+              label='Password'
+              type='password'
+              placeholder='Password'
+              name='password'
+              onChange={(e) => this.handleChange(e)}/>
+            <Form.Input
+              label='Password Confirmation'
+              type='password'
+              placeholder='Re-enter Password'
+              name='password_confirmation'
+              onChange={(e) => this.handleChange(e)}/>
           </Form.Group>
           <Form.Group unstackable widths={2}>
             <Form.Input label='First name' placeholder='First name'/>

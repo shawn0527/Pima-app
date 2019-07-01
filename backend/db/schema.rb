@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_06_26_212146) do
     t.string "password_digest"
     t.string "email"
     t.string "firstname"
+    t.string "middlename"
     t.string "lastname"
     t.string "mailing"
     t.datetime "created_at", null: false
