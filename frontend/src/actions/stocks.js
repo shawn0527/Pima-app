@@ -6,7 +6,6 @@ export const getAllStocks = allStocks => {
 }
 
 export const addStock = stock => {
-    debugger
     return {
         type: 'ADD_STOCK',
         stock

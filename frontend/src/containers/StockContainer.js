@@ -4,7 +4,7 @@ import MyStocks from '../components/stocks/MyStocks'
 import RecStocks from '../components/stocks/RecStocks'
 import {connect} from 'react-redux'
 import {getAllStocks} from '../actions/stocks'
-const stocksURL = 'https://cloud.iexapis.com/stable/tops?token=pk_8af4c42d6c704ca299d89a50a46e0628'
+const stocksURL = 'https://cloud.iexapis.com/stable/ref-data/symbols?token=pk_8af4c42d6c704ca299d89a50a46e0628'
 
 class Stock extends React.Component {
     state = {}
@@ -18,12 +18,12 @@ class Stock extends React.Component {
         })
         .then(res => res.json())
         .then(data => {
-            this.props.getAllStocks(data.filter(stock => stock.lastSalePrice > 0))
+            this.props.getAllStocks(data.filter(stock => stock.isEnabled === true))
         })
     }
 
     render() {
-        console.log(this.props.stocks)
+        console.log(this.props)
         
         return(
             <div>
@@ -36,4 +36,4 @@ class Stock extends React.Component {
     }
 }
 
-export default connect(state => state.stocks, {getAllStocks})(Stock)
+export default connect(state => state, {getAllStocks})(Stock)

@@ -21,9 +21,6 @@ class HomePage extends React.Component {
           }
         })
         .then(res => res.json())
-        .then(data => {
-          console.log(this.props.userData.user)
-        })
     }
   }
 
