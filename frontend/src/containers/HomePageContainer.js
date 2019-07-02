@@ -13,11 +13,11 @@ class HomePage extends React.Component {
     if (this.props.userData.user === undefined) {
       this.props.history.push('/')
     } else {
-      fetch(`http://localhost:3000/${this.props.userData.user.username}`, {
+      fetch(`http://localhost:3000/users/${this.props.userData.user.username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorized": `Bear ${this.props.userData.jwt_token}`
+            "Authorized": `Bear ${localStorage.token}`
           }
         })
         .then(res => res.json())

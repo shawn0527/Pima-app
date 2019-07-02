@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
     def index
-      @stocks = User.all
-      render json: @stock
+      @stocks = Stock.all
+      render json: @stocks
     end
   
     def show
@@ -14,21 +14,19 @@ class StocksController < ApplicationController
     end
   
     def create
-      
+      @stock = Stock.new(symbol: params[:symbol], purchase_price: params[:purchasePrice], amount_of_shares: params[:shares], user_id: params[:user_id])
+      @stock.valid?
+      @stock.save
+      render json:{ stock: StockSerializer.new(@stock)}, status: :accepted
     end
   
     def update
-      
+      @stock = Stock.find(params[:id])
+      byebug
     end
 
     def destroy
         @stock = Stock.find(params[:id])
     end
-  
-    private
-    def create_user
-      @user = User.create(params)
-    end
-  
   end
   

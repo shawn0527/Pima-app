@@ -3,7 +3,7 @@ export default (state = {allStocks: [], myStocks: [], recStocks: []}, action) =>
         case 'ALL_STOCKS':
             return {...state, allStocks: action.allStocks}
         case 'ADD_STOCK':
-            return [...state, action.stock]
+            return {...state, myStocks: [...state.myStocks, action.stock]}
         case 'EDIT_STOCK':
             return [...state.filter(stock => stock.id !== action.stock.id), action.stock]
         case 'SELL_STOCK':

@@ -3,12 +3,10 @@ import {connect} from 'react-redux'
 import StockCard from './StockCard'
 import StockForm from './StockForm'
 
-class MyStocks extends React.Component {
-    state = {}
 
+class MyStocks extends React.Component {
     render() {
-        console.log(this.props)
-        const myStocks = this.props.stocks.myStocks.map(stock => <StockCard stock={stock}/>)
+        const myStocks = this.props.myStocks.map(stock => <StockCard key={stock.id} stock={stock}/>)
         return (
             <div>
                 <h1>My Stocks</h1>
@@ -19,4 +17,4 @@ class MyStocks extends React.Component {
     }
 }
 
-export default connect(state => state)(MyStocks)
+export default connect(state => state.stocks)(MyStocks)

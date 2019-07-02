@@ -6,9 +6,9 @@ Rails.application.routes.draw do
              
   get '/users', to: 'users#index'
   post '/login', to: 'auth#login'
-  get '/:username', to: 'users#show'
+  get '/users/:username', to: 'users#show'
   post '/register', to: 'users#create'
-  patch '/:username', to: 'users#update'
+  patch '/users/:username', to: 'users#update'
 
   get '/stocks', to: 'stocks#index'
   get '/stocks/:id', to: 'stocks#show'

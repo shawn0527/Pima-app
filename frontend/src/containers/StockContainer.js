@@ -4,13 +4,15 @@ import MyStocks from '../components/stocks/MyStocks'
 import RecStocks from '../components/stocks/RecStocks'
 import {connect} from 'react-redux'
 import {getAllStocks} from '../actions/stocks'
-const stocksURL = 'https://cloud.iexapis.com/stable/ref-data/symbols?token=pk_8af4c42d6c704ca299d89a50a46e0628'
+import {addStock} from '../actions/stocks'
+const stocksAPI = 'https://cloud.iexapis.com/stable/ref-data/symbols?token=pk_8af4c42d6c704ca299d89a50a46e0628'
+const stockUrl = 'http://localhost:3000/stocks'
 
 class Stock extends React.Component {
     state = {}
 
     componentDidMount() {
-        fetch(stocksURL, {
+        fetch(stocksAPI, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,11 +22,22 @@ class Stock extends React.Component {
         .then(data => {
             this.props.getAllStocks(data.filter(stock => stock.isEnabled === true))
         })
+        .then(
+            fetch(stockUrl, {
+                method: 'GET',
+                headers: {
+                    'Contetn-Type': 'application/json',
+                    'Authorized': `Bear ${localStorage.token}`
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                data.filter(stock => stock.user_id == localStorage.user_id).map(stock => this.props.addStock(stock))
+            })
+        )
     }
 
     render() {
-        console.log(this.props)
-        
         return(
             <div>
                 Stocks
@@ -36,4 +49,4 @@ class Stock extends React.Component {
     }
 }
 
-export default connect(state => state, {getAllStocks})(Stock)
+export default connect(state => state, {getAllStocks, addStock})(Stock)

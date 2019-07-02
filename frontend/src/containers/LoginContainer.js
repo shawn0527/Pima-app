@@ -33,6 +33,8 @@ class Login extends React.Component {
     .then(data => {
       if(data.user) {
         this.props.userLogin(data)
+        localStorage.setItem('user_id', `${data.user.id}`)
+        localStorage.setItem('token', data.jwt_token)
         this.props.history.push(`/${data.user.username}`)
       } else {
         this.props.history.push('/')
