@@ -1,7 +1,7 @@
 import React from 'react'
 import StockSearch from '../components/stocks/StockSearch'
 import MyStocks from '../components/stocks/MyStocks'
-import RecStocks from '../components/stocks/RecStocks'
+import WatchedStocks from '../components/stocks/WatchedStocks'
 import {connect} from 'react-redux'
 import {getAllStocks} from '../actions/stocks'
 import {addStock} from '../actions/stocks'
@@ -41,9 +41,9 @@ class Stock extends React.Component {
         return(
             <div>
                 Stocks
-                {/* <StockSearch/> */}
+                <StockSearch/>
                 <MyStocks/>
-                <RecStocks/>
+                <WatchedStocks/>
             </div>
         )
     }

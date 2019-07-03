@@ -4,16 +4,16 @@ import {connect} from 'react-redux'
 
 class HomePage extends React.Component {
   componentWillMount() {
-    if (this.props.userData.user === undefined) {
+    if (localStorage.token === undefined) {
       this.props.history.push('/')
     }
   }
 
   componentDidMount() {
-    if (this.props.userData.user === undefined) {
+    if (localStorage.token === undefined) {
       this.props.history.push('/')
     } else {
-      fetch(`http://localhost:3000/users/${this.props.userData.user.username}`, {
+      fetch(`http://localhost:3000/users/${localStorage.username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -33,9 +33,9 @@ class HomePage extends React.Component {
         <p>chart</p>
         <p>total amount</p>
         <p>CPI</p>
-        <NavLink to={this.props.userData.user !== undefined?`/${this.props.userData.user.username}/stocks`:'/'}>Stock</NavLink>
+        <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/stocks`:'/'}>Stock</NavLink>
         <br></br>
-        <NavLink to='/:username/realestates'>RealEstate</NavLink>
+        <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/realestates`:'/'}>RealEstate</NavLink>
         <br></br>
         <NavLink to='/:username/investments'>Investment</NavLink>
       </div>

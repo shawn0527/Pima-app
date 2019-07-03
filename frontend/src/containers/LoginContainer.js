@@ -1,12 +1,19 @@
 import React from 'react'
-import {Button, Form, Segment, Container} from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Segment,
+  Grid,
+  Divider,
+  Container
+} from 'semantic-ui-react'
 import {userLogin} from '../actions/users'
 import {connect} from 'react-redux'
 const url = 'http://localhost:3000/login'
 
 class Login extends React.Component {
 
-  state={
+  state = {
     username: '',
     password: ''
   }
@@ -17,62 +24,74 @@ class Login extends React.Component {
     })
   }
 
- login = (e) => {
-    e.preventDefault()
-    fetch(url,{
+  login = e => {
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-          username: this.state.username,
-          password: this.state.password
+        body: JSON.stringify({username: this.state.username, password: this.state.password})
       })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if(data.user) {
-        this.props.userLogin(data)
-        localStorage.setItem('user_id', `${data.user.id}`)
-        localStorage.setItem('token', data.jwt_token)
-        this.props.history.push(`/${data.user.username}`)
-      } else {
-        this.props.history.push('/')
-      }
-    }
-      
-    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.user) {
+          this
+            .props
+            .userLogin(data)
+          localStorage.setItem('user_id', `${data.user.id}`)
+          localStorage.setItem('username', data.user.username)
+          localStorage.setItem('token', data.jwt_token)
+          this
+            .props
+            .history
+            .push(`/${data.user.username}`)
+        } else {
+          this
+            .props
+            .history
+            .push('/')
+        }
+      })
   }
 
   render() {
     return (
       <Container>
-        <Segment inverted>
-          <Form inverted onSubmit={(e) => this.login(e)}>
-            <Form.Group widths='equal'>
-              <Form.Input fluid label='Username' placeholder='Username' name='username' onChange={e => this.handleChange(e)}/>
-              <Form.Input fluid label='Password' type='password' placeholder='Password' name='password' onChange={e => this.handleChange(e)}/>
-            </Form.Group>
-            <Button type='submit'>Login</Button>
-          </Form>
+        <Segment placeholder>
+          <Grid columns={2} relaxed='very' stackable>
+            <Grid.Column>
+              <Form onSubmit={this.login}>
+                <Form.Input
+                  icon='user'
+                  iconPosition='left'
+                  label='Username'
+                  placeholder='Username'
+                  name='username'
+                  onChange={e => this.handleChange(e)}/>
+                <Form.Input
+                  icon='lock'
+                  iconPosition='left'
+                  label='Password'
+                  type='password'
+                  placeholder='Password'
+                  name='password'
+                  onChange={e => this.handleChange(e)}/>
+                <Button content='Login' type='submit' primary/>
+              </Form>
+            </Grid.Column>
+            <Grid.Column verticalAlign='middle'>
+              <Button
+                content='Sign up'
+                icon='signup'
+                size='big'
+                onClick={() => this.props.history.push('/register')}/>
+            </Grid.Column>
+          </Grid>
+          <Divider vertical>Or</Divider>
         </Segment>
-        <button onClick={() => this.props.history.push('/login')}>Login</button>
-        <button onClick={() => this.props.history.push('/register')}>Open an account</button>
       </Container>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userData: state.userData
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    userLogin: (userData) => dispatch(userLogin(userData))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(state => state.userData, {userLogin})(Login)

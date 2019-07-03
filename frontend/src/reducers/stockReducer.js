@@ -1,4 +1,4 @@
-export default (state = {allStocks: [], myStocks: [], recStocks: []}, action) => {
+export default (state = {allStocks: [], myStocks: [], watchedStocks: []}, action) => {
     switch(action.type) {
         case 'ALL_STOCKS':
             return {...state, allStocks: action.allStocks}

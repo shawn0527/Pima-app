@@ -15,23 +15,7 @@ class StockForm extends React.Component {
     }
 
     addNewStock = e => {
-        if(this.props.myStocks.includes(stock => stock.symbol !== this.state.symbol)) {
-          fetch(newStockUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                "Authorized": `Bear ${localStorage.token}`
-            },
-            body: JSON.stringify({
-                symbol: this.state.symbol.toUpperCase(),
-                purchasePrice:this.state.purchasePrice,
-                shares: this.state.shares,
-                user_id: localStorage.user_id
-            })
-          })
-          .then(res => res.json())
-          .then(data => this.props.addStock(data.stock))
-        } else {
+        if(this.props.myStocks.filter(stock => stock.symbol === this.state.symbol.toUpperCase()).length > 0) {
           const stock = this.props.myStocks.find(stock => stock.symbol === this.state.symbol.toUpperCase())
           fetch(stockUrl(stock.id), {
             method: 'PATCH',
@@ -49,6 +33,23 @@ class StockForm extends React.Component {
           .then(data => {
             this.props.editStock(data.stock)
           })
+          // 
+        } else {
+          fetch(newStockUrl, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  "Authorized": `Bear ${localStorage.token}`
+              },
+              body: JSON.stringify({
+                  symbol: this.state.symbol.toUpperCase(),
+                  purchasePrice:this.state.purchasePrice,
+                  shares: this.state.shares,
+                  user_id: localStorage.user_id
+              })
+            })
+            .then(res => res.json())
+            .then(data => this.props.addStock(data.stock))
         }
         e.target.reset()     
     }
