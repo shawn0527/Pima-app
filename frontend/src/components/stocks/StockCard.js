@@ -1,6 +1,8 @@
 import React from 'react'
 import {Card, Button, Image} from 'semantic-ui-react'
-import {Container, Form, Button as SButton, Input} from 'semantic-ui-react'
+import {Form, Button as SButton, Input} from 'semantic-ui-react'
+import {connect} from 'react-redux'
+import {editStock} from '../../actions/stocks'
 const stockInfoUrl = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/stats/?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const price = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/price?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const stockUrl = stockId => `http://localhost:3000/stocks/${stockId}`
@@ -55,9 +57,10 @@ class StockCard extends React.Component {
   }
 
   tradeStock = e => {
-    //   debugger
       e.preventDefault()
-      console.log(e.target.name)
+      this.setState({
+        editStock: false
+      })
       fetch(stockUrl(this.props.stock.id), {
         method: 'PATCH',
         headers: {
@@ -71,7 +74,12 @@ class StockCard extends React.Component {
         })
     })
     .then(res => res.json())
-    .then(data => this.props.addStock(data.stock))
+    .then(data => {
+      console.log(data, this.props)
+      this.props.editStock(data.stock)
+    })
+
+    e.target.reset()
   }
 
   render() {
@@ -100,7 +108,8 @@ class StockCard extends React.Component {
             <li>PE Ratio: {this.state.stock.peRatio}</li>
             <li>52 weeks Highest: {this.state.stock.week52high}</li>
             <li>52 weeks Lowest: {this.state.stock.week52low}</li>
-            <li>Current price: {this.state.marketPrice}</li>
+            <li>Current price: <strong>{this.state.marketPrice}</strong></li>
+            <li><strong>{this.props.stock.amount_of_shares}</strong> shares on hand</li>
             <strong>Cash Value: ${cashValue}</strong>
             <br></br>
             <strong>Profit: ${cashValue - cost}</strong>
@@ -120,10 +129,10 @@ class StockCard extends React.Component {
                     <Input fluid placeholder='amount of shares' name='shares' onChange={this.handleChange}/>
                   </Form.Field>
                   <Form.Field>
-                    <Input fluid placeholder='price' name='purchasePrice'/>
+                    <Input fluid placeholder='price' name='purchasePrice' onChange={this.handleChange}/>
                   </Form.Field>
                   <Form.Field>
-                    <SButton type='submit' onClick={this.tradeStock} name={this.state.buyStok?'buy':'sell'}>{this.state.buyStock?'Buy':'Sell'}</SButton>
+                    <SButton type='submit'>{this.state.buyStock?'Buy':'Sell'}</SButton>
                   </Form.Field>
                 </Form.Group>
               </Form>
@@ -134,4 +143,4 @@ class StockCard extends React.Component {
   }
 }
 
-export default StockCard
+export default connect(state => state.stocks, {editStock})(StockCard)

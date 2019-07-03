@@ -3,11 +3,11 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 class HomePage extends React.Component {
-    componentWillMount() {
-        if (this.props.userData.user === undefined) {
-            this.props.history.push('/')
-        }
+  componentWillMount() {
+    if (this.props.userData.user === undefined) {
+      this.props.history.push('/')
     }
+  }
 
   componentDidMount() {
     if (this.props.userData.user === undefined) {
@@ -28,12 +28,12 @@ class HomePage extends React.Component {
     return (
       <div>
         HomePage
-        <h1>{this.props.userData.user.firstname}</h1>
+        <h1>{this.props.userData.user !== undefined?this.props.userData.user.firstname:null}</h1>
         <p>table</p>
         <p>chart</p>
         <p>total amount</p>
         <p>CPI</p>
-        <NavLink to={`/${this.props.userData.user.username}/stocks`}>Stock</NavLink>
+        <NavLink to={this.props.userData.user !== undefined?`/${this.props.userData.user.username}/stocks`:'/'}>Stock</NavLink>
         <br></br>
         <NavLink to='/:username/realestates'>RealEstate</NavLink>
         <br></br>
@@ -43,11 +43,4 @@ class HomePage extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-      userData: state.userData,
-      stocks: state.stocks
-    }
-}
-
-export default connect(mapStateToProps)(HomePage)
+export default connect(state => state)(HomePage)

@@ -2,13 +2,12 @@ import React from 'react'
 import {Form, Input} from 'semantic-ui-react'
 import {Button} from 'react-bootstrap'
 import {connect} from 'react-redux'
-import {addStock} from '../../actions/stocks'
-const stockUrl = 'http://localhost:3000/stocks'
+import {addStock, editStock} from '../../actions/stocks'
+const newStockUrl = 'http://localhost:3000/stocks'
+const stockUrl = stockId => `http://localhost:3000/stocks/${stockId}`
 
 class StockForm extends React.Component {
     state = {}
-
-
     fillingStockForm = e => {
         this.setState({
             [e.target.name]:e.target.value
@@ -16,8 +15,8 @@ class StockForm extends React.Component {
     }
 
     addNewStock = e => {
-        e.preventDefault()
-        fetch(stockUrl, {
+        if(this.props.myStocks.includes(stock => stock.symbol !== this.state.symbol)) {
+          fetch(newStockUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,11 +28,30 @@ class StockForm extends React.Component {
                 shares: this.state.shares,
                 user_id: localStorage.user_id
             })
-        })
-        .then(res => res.json())
-        .then(data => this.props.addStock(data.stock))
+          })
+          .then(res => res.json())
+          .then(data => this.props.addStock(data.stock))
+        } else {
+          const stock = this.props.myStocks.find(stock => stock.symbol === this.state.symbol.toUpperCase())
+          fetch(stockUrl(stock.id), {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorized": `Bear ${localStorage.token}`
+            },
+            body: JSON.stringify({
+                trade: 'buy',
+                purchasePrice:this.state.purchasePrice,
+                shares: this.state.shares
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            this.props.editStock(data.stock)
+          })
+        }
+        e.target.reset()     
     }
-
 
   render() {
     return (
@@ -58,4 +76,4 @@ class StockForm extends React.Component {
   }
 }
 
-export default connect(state => state.userData, {addStock})(StockForm)
+export default connect(state => state.stocks, {addStock, editStock})(StockForm)
