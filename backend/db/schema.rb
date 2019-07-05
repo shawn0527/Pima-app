@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_26_212146) do
+ActiveRecord::Schema.define(version: 2019_07_05_160918) do
+
+  create_table "costs", force: :cascade do |t|
+    t.string "item_name"
+    t.integer "cost"
+    t.text "description"
+    t.integer "real_estate_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "other_investments", force: :cascade do |t|
     t.string "name"

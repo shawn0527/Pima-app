@@ -22,6 +22,7 @@ class RealEstatesController < ApplicationController
 
     def destroy
         @real_estate = RealEstate.find(params[:id])
+        @real_estate.destroy
     end
   
     private

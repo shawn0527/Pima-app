@@ -5,6 +5,7 @@ import RealEstateCard from './RealEstateCard'
 class RealEstateList extends React.Component {
     render() {
         const realEstates = this.props.realEstates.map(realEstate => <RealEstateCard key={realEstate.id} realEstate={realEstate}/>)
+        console.log(realEstates)
         return(
             <div>
                 {realEstates}

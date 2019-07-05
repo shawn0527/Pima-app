@@ -1,17 +1,9 @@
 import React from 'react'
-import {
-  Segment,
-  Grid,
-  Divider,
-  Form,
-  Input,
-  Card,
-  Button,
-  Image,
-  List
-} from 'semantic-ui-react'
+import { Segment, Grid, Divider, Form, Input, Card, Button, Image, List } from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {editStock} from '../../actions/stocks'
+var accounting = require('accounting')
+
 const stockInfoUrl = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/stats/?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const price = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/price?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const stockUrl = stockId => `http://localhost:3000/stocks/${stockId}`
@@ -65,7 +57,6 @@ class StockCard extends React.Component {
           'Content-Type': 'application/json'
         }
       }).then(res => res.json()).then(data => {
-        // debugger
         this.setState({news: data})
       }))
   }
@@ -115,9 +106,7 @@ class StockCard extends React.Component {
           .editStock(data.stock)
       })
 
-    e
-      .target
-      .reset()
+    e.target.reset()
   }
 
   render() {
@@ -142,19 +131,17 @@ class StockCard extends React.Component {
                 <Card.Meta>{this.props.stock.symbol}</Card.Meta>
                 <Card.Description>
                   <li>PE Ratio: {this.state.stock.peRatio}</li>
-                  <li>Markt Cap: ${this.state.stock.marketcap}</li>
+                  <li>Markt Cap: {accounting.formatMoney(this.state.stock.marketcap)}</li>
                   <li>PE Ratio: {this.state.stock.peRatio}</li>
-                  <li>52 weeks Highest: {this.state.stock.week52high}</li>
-                  <li>52 weeks Lowest: {this.state.stock.week52low}</li>
+                  <li>52 weeks Highest: {accounting.formatMoney(this.state.stock.week52high)}</li>
+                  <li>52 weeks Lowest: {accounting.formatMoney(this.state.stock.week52low)}</li>
                   <li>Current price:
-                    <strong>{this.state.marketPrice}</strong>
+                    <strong> {accounting.formatMoney(this.state.marketPrice)}</strong>
                   </li>
-                  <li>
-                    <strong>{this.props.stock.amount_of_shares}</strong>
-                    shares on hand</li>
-                  <strong>Cash Value: ${cashValue}</strong>
+                  <li><strong>{accounting.formatNumber(this.props.stock.amount_of_shares)}</strong> shares on hand</li>
+                  <strong>Cash Value: {accounting.formatMoney(cashValue)}</strong>
                   <br></br>
-                  <strong>Profit: ${cashValue - cost}</strong>
+                  <strong>Profit: {accounting.formatMoney(cashValue - cost)}</strong>
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>

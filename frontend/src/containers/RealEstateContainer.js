@@ -29,7 +29,6 @@ class RealEstate extends React.Component {
                 <h1>RealEstate</h1>
                 <RealEstateLocation/>
                 <RealEstateList/>
-                <RealEstateCard/>
                 <RealEstateForm/>
             </div>
         )

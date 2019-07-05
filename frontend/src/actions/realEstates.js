@@ -20,9 +20,9 @@ export const editRealEtate = realEstate => {
     }
 }
 
-export const sellRealEstate = realEstate => {
+export const sellRealEstate = id => {
     return {
         type: 'SELL_REALESTATE',
-        realEstate
+        id
     }
 }

@@ -20,7 +20,10 @@ Rails.application.routes.draw do
   # get '/realestates/:id', to: 'real_estates#show'
   post '/realestates', to: 'real_estates#create'
   patch '/realestates/:id', to: 'real_estates#update'
-  # delete '/realestates/:id', to: 'real_estates#destroy'
+  delete '/realestates/:id', to: 'real_estates#destroy'
+
+  get '/costs', to: 'costs#index'
+  post '/costs', to: 'costs#create'
 
   # get '/otherinvestments', to: 'other_investments#index'
   # get '/otherinvestments/:id', to: 'other_investments#show'

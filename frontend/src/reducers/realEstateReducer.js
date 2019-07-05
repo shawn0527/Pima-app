@@ -7,7 +7,7 @@ export default (state = {realEstates: []}, action) => {
         case 'EDIT_REALESTATE':
             return [...state.filter(realEstate => realEstate.id !== action.realEstate.id), action.realEstate]
         case 'SELL_REALESTATE':
-            return state.filter(realEstate => realEstate !== action.realEstate)
+            return {...state, realEstates: state.realEstates.filter(realEstate => realEstate.id !== action.id)}
         default:
             return state
     }

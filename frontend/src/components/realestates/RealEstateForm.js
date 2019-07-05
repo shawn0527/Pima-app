@@ -15,22 +15,22 @@ class RealEstateForm extends React.Component {
 
   addNewProperty = e => {
     e.preventDefault()
-    fetch(newProperty, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorized": `Bear ${localStorage.token}`
-      }, 
-        body: JSON.stringify({
-          ...this.state,
-          user_id: localStorage.user_id
+      fetch(newProperty, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorized": `Bear ${localStorage.token}`
+        }, 
+          body: JSON.stringify({
+            ...this.state,
+            user_id: localStorage.user_id
+          })
         })
-      })
-      .then(res => res.json())
-      .then(data => {
-        this.props.addRealEstate(data)
-      })
-    e.target.reset()
+        .then(res => res.json())
+        .then(data => {
+          this.props.addRealEstate(data)
+        })
+        e.target.reset()
   }
 
   render() {
@@ -47,8 +47,8 @@ class RealEstateForm extends React.Component {
             <Form.Input label='Tax' name='tax' placeholder='Tax' onChange={(e) => this.handleChange(e)}/>
             <Form.Input label='Cost' name='cost' placeholder='Purchased Cost' onChange={(e) => this.handleChange(e)}/>
           </Form.Group>
-            <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={(e) => this.handleChange(e)}/>
-          <Button positive type='submit'>Add Property</Button>
+          <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={(e) => this.handleChange(e)}/>
+          <Button positive>Add Property</Button>
         </Form>
       </Container>
     )
