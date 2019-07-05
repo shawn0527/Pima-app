@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # match '/', :to => proc {|env| [200, {'Content-Type' => 'text/plain'}, ["Hello world"]] },
   #            :via => [:get, :post, :put, :delete, :options, :head, :patch]
              
-  get '/users', to: 'users#index'
+  # get '/users', to: 'users#index'
   post '/login', to: 'auth#login'
   get '/users/:username', to: 'users#show'
   post '/register', to: 'users#create'
@@ -16,10 +16,10 @@ Rails.application.routes.draw do
   patch '/stocks/:id', to: 'stocks#update'
   # delete '/stocks/:id', to: 'stocks#destroy'
 
-  # get '/realestates', to: 'real_estates#index'
+  get '/realestates', to: 'real_estates#index'
   # get '/realestates/:id', to: 'real_estates#show'
-  # post '/realestates', to: 'real_estates#create'
-  # patch '/realestates/:id', to: 'real_estates#update'
+  post '/realestates', to: 'real_estates#create'
+  patch '/realestates/:id', to: 'real_estates#update'
   # delete '/realestates/:id', to: 'real_estates#destroy'
 
   # get '/otherinvestments', to: 'other_investments#index'

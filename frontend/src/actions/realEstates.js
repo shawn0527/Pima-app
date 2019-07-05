@@ -1,3 +1,11 @@
+export const allRealEstates = (allRealEstates, userId) => {
+    return {
+        type: 'ALL_REALESTATES',
+        allRealEstates,
+        userId
+    }
+}
+
 export const addRealEstate = realEstate => {
     return {
         type: 'ADD_REALESTATE',

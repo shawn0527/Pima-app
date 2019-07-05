@@ -10,11 +10,14 @@ class RealEstatesController < ApplicationController
     end
 
     def create
-    
+        @real_estate = RealEstate.new(name: params[:name], address: params[:address], rent: params[:rent], insurance: params[:insurance], tax: params[:tax], cost: params[:cost], description: params[:description], user_id: params[:user_id])
+        @real_estate.save
+        render json: @real_estate, status: :accepted
     end
     
     def update
-      
+        @real_estate = RealEstate.find(params[:id])
+        @real_estate.update(name: params[:name], address: params[:address], rent: params[:rent], insurance: params[:insurance], tax: params[:tax], cost: params[:cost], description: params[:description])
     end
 
     def destroy

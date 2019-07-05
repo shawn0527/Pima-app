@@ -66,9 +66,8 @@ class StockCard extends React.Component {
         }
       }).then(res => res.json()).then(data => {
         // debugger
-        this.setState({
-          news: data
-      })}))
+        this.setState({news: data})
+      }))
   }
 
   buyShares = () => {
@@ -122,7 +121,6 @@ class StockCard extends React.Component {
   }
 
   render() {
-    console.log(this.state.news)
     const cashValue = this.state.marketPrice * this
       .props
       .stock
@@ -200,16 +198,17 @@ class StockCard extends React.Component {
                 .state
                 .news
                 .map(news => <List.Item>
-                  <Image avatar src={news.image}/>
                   <List.Content>
-                    <List.Header as='a'>{news.source}</List.Header>
+                    <Image avatar src={news.image}/>                 
+                    <a href={news.url}>
+                      <b>{news.headline}</b>
+                    </a>
                     <List.Description>
-                      Last seen watching{' '}
-                      <a href={news.url}>
-                        <b>{news.headline}</b>
-                      </a>{' '}
-                      just now.
+                      {`${news
+                        .summary
+                        .substring(0, 100)}...`}
                     </List.Description>
+                    <List.Header >Source: {news.source}</List.Header>
                   </List.Content>
                 </List.Item>)}
             </List>
