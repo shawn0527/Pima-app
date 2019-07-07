@@ -3,7 +3,7 @@ export default (state ={ extraCost: []}, action) => {
         case 'ALL_COST':
             return {...state, extraCost: action.allCost.filter(cost => cost.real_estate_id === action.real_estate_id)}
         case 'ADD_COST':
-            return {...state, extraCost: [...state.extraCost, action.extraCost]}
+            return {...state, extraCost: [...state.extraCost, action.cost]}
         default:
             return state
     }

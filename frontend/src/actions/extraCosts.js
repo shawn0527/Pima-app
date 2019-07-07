@@ -5,3 +5,10 @@ export const allCosts = (allCost, real_estate_id) => {
         real_estate_id
     }
 }
+
+export const addCost = cost => {
+    return {
+        type: 'ADD_COST',
+        cost
+    }
+}

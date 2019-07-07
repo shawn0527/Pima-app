@@ -6,7 +6,7 @@ class RealEstatesController < ApplicationController
 
     def show
         @real_estate = RealEstate.find(params[:id])
-        render json: @real_estate
+        render json: @real_estate.total_extra_cost
     end
 
     def create

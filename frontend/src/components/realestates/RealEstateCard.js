@@ -2,7 +2,8 @@ import React from 'react'
 import {Container, Form, List, Button, Input, TextArea} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {sellRealEstate} from '../../actions/realEstates'
-import {allCosts, addExtraCost} from '../../actions/extraCosts'
+import {allCosts, addCost} from '../../actions/extraCosts'
+import Costs from '../realestates/ExtraCost'
 var accounting = require('accounting')
 const realEstateUrl = id => `http://localhost:3000/realestates/${id}`
 const costUrl = 'http://localhost:3000/costs'
@@ -30,8 +31,22 @@ class RealEstateCard extends React.Component {
       }
     })
     .then(res => res.json())
-    .then(data => console.log(data)
-      // this.props.allCosts(data, this.state.realEstate.id)
+    .then(data => 
+      this.props.allCosts(data, this.state.realEstate.id)
+    )
+    .then(fetch(realEstateUrl(this.state.realEstate.id), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorized': `Bear ${localStorage.token}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        总额: data
+      })
+    })
     )
   }
 
@@ -65,9 +80,10 @@ class RealEstateCard extends React.Component {
   handleECChange = e => {
     this.setState({
       extraCost: {
+        ...this.state.extraCost,
         [e.target.name]: e.target.value
       }
-    })
+    })  
   }
 
   addCost = e => {
@@ -81,12 +97,14 @@ class RealEstateCard extends React.Component {
       body: JSON.stringify({
         item_name: this.state.extraCost.item_name,
         cost: this.state.extraCost.cost,
-        description: this.state.extraCost,
+        description: this.state.extraCost.description,
         real_estate_id: this.state.realEstate.id
       })
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      this.props.addCost(data)
+    })
     e.target.reset()
     this.setState({
       addExtraCost: false
@@ -107,7 +125,7 @@ class RealEstateCard extends React.Component {
             })
         })
         .then(this.props.sellRealEstate(this.state.realEstate.id))
-    }else if(!this.state.edit) {
+    } else if(!this.state.edit) {
         return fetch(realEstateUrl(this.state.realEstate.id), {
             method: 'PATCH',
             headers: {
@@ -122,6 +140,7 @@ class RealEstateCard extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     let name, rent, insurance, tax, cost, address, netIncome, roi
     name = this.state.realEstate.name
     rent = this.state.realEstate.rent
@@ -155,7 +174,7 @@ class RealEstateCard extends React.Component {
                   <ul>Tax: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(tax)}`} name='tax' onChange={this.handleREChange}/>
                       : accounting.formatMoney(tax)}/year</ul>
-                  <ul>Other Cost: {this.props.realEstate.costs}</ul>
+                  <ul>Other Cost: {accounting.formatMoney(this.state.总额)}<Costs real_estate_id={this.state.realEstate.id}/></ul>
                   <ul>Acquisition Cost: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(cost)}`} name='cost' onChange={this.handleREChange}/>
                       : accounting.formatMoney(cost)}</ul>
@@ -176,10 +195,10 @@ class RealEstateCard extends React.Component {
             {this.state.addExtraCost
             ? <Form onSubmit={this.addCost}>
                 <Form.Group>
-                  <Form.Input label='Cost Name' name='item_name' placeholder='Item' onChange={(e) => this.handleECChange(e)}/>
-                  <Form.Input label='Cost Amount' name='cost' placeholder='Cost' onChange={(e) => this.handleECChange(e)}/>
+                  <Form.Input label='Cost Name' name='item_name' placeholder='Item' onChange={this.handleECChange}/>
+                  <Form.Input label='Cost Amount' name='cost' placeholder='Cost' onChange={this.handleECChange}/>
                 </Form.Group>
-                <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={(e) => this.handleECChange(e)}/>
+                <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={this.handleECChange}/>
                 <Form.Button content='Add'/>
               </Form>:null} 
           </Container>    
@@ -188,4 +207,4 @@ class RealEstateCard extends React.Component {
   }
 }
 
-export default connect(state => state.realEstates, {sellRealEstate, allCosts})(RealEstateCard)
+export default connect(state => state.realEstates, {sellRealEstate, allCosts, addCost})(RealEstateCard)

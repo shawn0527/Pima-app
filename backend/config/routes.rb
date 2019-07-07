@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   # delete '/stocks/:id', to: 'stocks#destroy'
 
   get '/realestates', to: 'real_estates#index'
-  # get '/realestates/:id', to: 'real_estates#show'
+  get '/realestates/:id', to: 'real_estates#show'
   post '/realestates', to: 'real_estates#create'
   patch '/realestates/:id', to: 'real_estates#update'
   delete '/realestates/:id', to: 'real_estates#destroy'
