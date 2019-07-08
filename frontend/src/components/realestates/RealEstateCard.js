@@ -1,53 +1,16 @@
 import React from 'react'
-import {Container, Form, List, Button, Input, TextArea} from 'semantic-ui-react'
+import {Form, List, Button, Input} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {sellRealEstate} from '../../actions/realEstates'
-import {allCosts, addCost} from '../../actions/extraCosts'
 import Costs from '../realestates/ExtraCost'
-var accounting = require('accounting')
+const accounting = require('accounting')
 const realEstateUrl = id => `http://localhost:3000/realestates/${id}`
-const costUrl = 'http://localhost:3000/costs'
 
 class RealEstateCard extends React.Component {
   state = {
       realEstate: this.props.realEstate !== undefined?this.props.realEstate:{},
-      extraCost: {
-        item_name: '',
-        cost: 0,
-        description: '',
-        real_estate_id: null
-      },
       edit: false,
-      sell: false,
-      addExtraCost: false
-  }
-
-  componentDidMount() {
-    fetch(costUrl, {
-      method:'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorized': `Bear ${localStorage.token}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => 
-      this.props.allCosts(data, this.state.realEstate.id)
-    )
-    .then(fetch(realEstateUrl(this.state.realEstate.id), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorized': `Bear ${localStorage.token}`
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        总额: data
-      })
-    })
-    )
+      sell: false
   }
 
   edit = () => {
@@ -62,12 +25,6 @@ class RealEstateCard extends React.Component {
       })
   }
 
-  addCostItem = () => {
-    this.setState({
-      addExtraCost: !this.state.addExtraCost
-    })
-  }
-
   handleREChange = e => {
       this.setState({
           realEstate:{
@@ -75,40 +32,6 @@ class RealEstateCard extends React.Component {
             [e.target.name]: e.target.value
           }
       })
-  }
-
-  handleECChange = e => {
-    this.setState({
-      extraCost: {
-        ...this.state.extraCost,
-        [e.target.name]: e.target.value
-      }
-    })  
-  }
-
-  addCost = e => {
-    e.preventDefault()
-    fetch(costUrl, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-        'Authorized': `Bear ${localStorage.token}`
-      },
-      body: JSON.stringify({
-        item_name: this.state.extraCost.item_name,
-        cost: this.state.extraCost.cost,
-        description: this.state.extraCost.description,
-        real_estate_id: this.state.realEstate.id
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      this.props.addCost(data)
-    })
-    e.target.reset()
-    this.setState({
-      addExtraCost: false
-    })
   }
 
   updateProperty = e => {
@@ -140,7 +63,6 @@ class RealEstateCard extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     let name, rent, insurance, tax, cost, address, netIncome, roi
     name = this.state.realEstate.name
     rent = this.state.realEstate.rent
@@ -174,7 +96,7 @@ class RealEstateCard extends React.Component {
                   <ul>Tax: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(tax)}`} name='tax' onChange={this.handleREChange}/>
                       : accounting.formatMoney(tax)}/year</ul>
-                  <ul>Other Cost: {accounting.formatMoney(this.state.总额)}<Costs real_estate_id={this.state.realEstate.id}/></ul>
+                  <ul><Costs real_estate_id={this.state.realEstate.id}/></ul>
                   <ul>Acquisition Cost: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(cost)}`} name='cost' onChange={this.handleREChange}/>
                       : accounting.formatMoney(cost)}</ul>
@@ -190,21 +112,9 @@ class RealEstateCard extends React.Component {
             </List.Item>
           </List>
           : null}
-          <Container>
-            <Button circular icon={this.state.addExtraCost?'minus':'plus'} color={this.state.addExtraCost?'red':'green'} onClick={this.addCostItem}/>
-            {this.state.addExtraCost
-            ? <Form onSubmit={this.addCost}>
-                <Form.Group>
-                  <Form.Input label='Cost Name' name='item_name' placeholder='Item' onChange={this.handleECChange}/>
-                  <Form.Input label='Cost Amount' name='cost' placeholder='Cost' onChange={this.handleECChange}/>
-                </Form.Group>
-                <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={this.handleECChange}/>
-                <Form.Button content='Add'/>
-              </Form>:null} 
-          </Container>    
       </div>
     )
   }
 }
 
-export default connect(state => state.realEstates, {sellRealEstate, allCosts, addCost})(RealEstateCard)
+export default connect(state => state.realEstates, {sellRealEstate})(RealEstateCard)
