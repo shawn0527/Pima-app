@@ -27,9 +27,9 @@ class RealEstate extends React.Component {
         return(
             <div>
                 <h1>RealEstate</h1>
-                <RealEstateLocation/>
-                <RealEstateList/>
                 <RealEstateForm/>
+                <RealEstateLocation/>
+                <RealEstateList/> 
             </div>
         )
     }

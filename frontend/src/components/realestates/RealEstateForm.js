@@ -1,5 +1,5 @@
 import React from 'react'
-import {Container, Form, Button, TextArea} from 'semantic-ui-react'
+import {Header, Form, Button, TextArea, Modal} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {addRealEstate} from '../../actions/realEstates'
 const newProperty = 'http://localhost:3000/realestates'
@@ -35,22 +35,25 @@ class RealEstateForm extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Form onSubmit={this.addNewProperty}>
-          <Form.Group widths={2}>
-            <Form.Input label='Property Name' name='name' placeholder='Property Name' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Address' name='address' placeholder='Address' onChange={(e) => this.handleChange(e)}/>
-          </Form.Group>
-          <Form.Group widths={2}>
-            <Form.Input label='Rent' name='rent' placeholder='Rent/month' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Insurance' name='insurance' placeholder='Insurance' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Tax' name='tax' placeholder='Tax' onChange={(e) => this.handleChange(e)}/>
-            <Form.Input label='Cost' name='cost' placeholder='Purchased Cost' onChange={(e) => this.handleChange(e)}/>
-          </Form.Group>
-          <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={(e) => this.handleChange(e)}/>
-          <Button positive>Add Property</Button>
-        </Form>
-      </Container>
+      <Modal trigger={<Button positive>Add New Property</Button>} closeIcon basic size='small'>
+        <Header icon='archive' content='Archive Old Messages' />
+        <Modal.Content>
+          <Form onSubmit={this.addNewProperty}>
+            <Form.Group widths={2}>
+              <Form.Input label='Property Name' name='name' placeholder='Property Name' onChange={(e) => this.handleChange(e)}/>
+              <Form.Input label='Address' name='address' placeholder='Address' onChange={(e) => this.handleChange(e)}/>
+            </Form.Group>
+            <Form.Group widths={2}>
+              <Form.Input label='Rent' name='rent' placeholder='Rent/month' onChange={(e) => this.handleChange(e)}/>
+              <Form.Input label='Insurance' name='insurance' placeholder='Insurance' onChange={(e) => this.handleChange(e)}/>
+              <Form.Input label='Tax' name='tax' placeholder='Tax' onChange={(e) => this.handleChange(e)}/>
+              <Form.Input label='Cost' name='cost' placeholder='Purchased Cost' onChange={(e) => this.handleChange(e)}/>
+            </Form.Group>
+            <Form.Field id='form-textarea-control-opinion' control={TextArea} label='Description' name='description' placeholder='Description' onChange={(e) => this.handleChange(e)}/>
+              <Button positive>Add Property</Button>
+          </Form>
+        </Modal.Content>
+      </Modal>
     )
   }
 }

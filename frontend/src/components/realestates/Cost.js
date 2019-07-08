@@ -1,4 +1,5 @@
 import React from 'react'
+import {List} from 'semantic-ui-react'
 const accounting = require('accounting')
 
 
@@ -7,10 +8,14 @@ export default class Cost extends React.Component {
     render() {
         const cost = this.props.cost
         return(
-        <div>
-            <li>Item: {cost.item_name}/Cost: {accounting.formatMoney(cost.cost)}</li>
-            <li>Description: {cost.description}</li>
-        </div>
+            <List.Item as='ol'>
+                <List.Item as='li' value='*'>Item: {cost.item_name}
+                <List.Item as='ol'>
+                    <List.Item as='li' value='-'>Cost: {accounting.formatMoney(cost.cost)}</List.Item>
+                    <List.Item as='li' value='-'>Description: {cost.description}</List.Item>
+                </List.Item>
+                </List.Item>
+            </List.Item>
         )
     }
 }

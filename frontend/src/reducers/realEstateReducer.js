@@ -8,6 +8,10 @@ export default (state = {realEstates: []}, action) => {
             return [...state.filter(realEstate => realEstate.id !== action.realEstate.id), action.realEstate]
         case 'SELL_REALESTATE':
             return {...state, realEstates: state.realEstates.filter(realEstate => realEstate.id !== action.id)}
+        case 'TOTAL':
+            let realEstate = state.realEstates.filter(realEstate => realEstate.id === action.id)[0]
+            realEstate.total = action.cost
+            return {...state, realEstates: [...state.realEstates.filter(realEstate => realEstate.id !== action.id), realEstate]}
         default:
             return state
     }

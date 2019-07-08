@@ -26,3 +26,11 @@ export const sellRealEstate = id => {
         id
     }
 }
+
+export const totalCost = (id, cost) => {
+    return {
+        type: 'TOTAL',
+        id,
+        cost
+    }
+}

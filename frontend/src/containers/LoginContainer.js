@@ -35,21 +35,13 @@ class Login extends React.Component {
       .then(res => res.json())
       .then(data => {
         if (data.user) {
-          this
-            .props
-            .userLogin(data)
+          this.props.userLogin(data)
           localStorage.setItem('user_id', `${data.user.id}`)
           localStorage.setItem('username', data.user.username)
           localStorage.setItem('token', data.jwt_token)
-          this
-            .props
-            .history
-            .push(`/${data.user.username}`)
+          this.props.history.push(`/${data.user.username}`)
         } else {
-          this
-            .props
-            .history
-            .push('/')
+          this.props.history.push('/')
         }
       })
   }
@@ -61,13 +53,7 @@ class Login extends React.Component {
           <Grid columns={2} relaxed='very' stackable>
             <Grid.Column>
               <Form onSubmit={this.login}>
-                <Form.Input
-                  icon='user'
-                  iconPosition='left'
-                  label='Username'
-                  placeholder='Username'
-                  name='username'
-                  onChange={e => this.handleChange(e)}/>
+                <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Username' name='username' onChange={e => this.handleChange(e)}/>
                 <Form.Input
                   icon='lock'
                   iconPosition='left'
