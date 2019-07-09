@@ -2,8 +2,8 @@ import React from 'react'
 import { Segment, Grid, Divider, Form, Input, Card, Button, Image, List } from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {editStock} from '../../actions/stocks'
+import Loading from '../Loading'
 var accounting = require('accounting')
-
 const stockInfoUrl = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/stats/?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const price = symbol => `https://cloud.iexapis.com/stable/stock/${symbol}/price?token=pk_8af4c42d6c704ca299d89a50a46e0628`
 const stockUrl = stockId => `http://localhost:3000/stocks/${stockId}`
@@ -16,10 +16,11 @@ class StockCard extends React.Component {
     news: [],
     marketPrice: null,
     editStock: false,
-    buyStock: false
+    buyStock: false,
+    isLoading: true
   }
 
-  componentDidMount() {
+  componentWillMount() {
     fetch(stockInfoUrl(this.props.stock.symbol), {
         method: 'GET',
         headers: {
@@ -36,6 +37,14 @@ class StockCard extends React.Component {
           'Content-Type': 'application/json'
         }
       }).then(res => res.json()).then(data => {
+        fetch(stockUrl(this.props.stock.id), {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorized": `Bear ${localStorage.token}`
+          },
+            body: JSON.stringify({market_price: data})
+        })
         this.setState({marketPrice: data})
       }))
       .then(fetch(stockLogo(this.props.stock.symbol), {
@@ -57,8 +66,19 @@ class StockCard extends React.Component {
           'Content-Type': 'application/json'
         }
       }).then(res => res.json()).then(data => {
-        this.setState({news: data})
+        this.setState({news: data, isLoading: false})
       }))
+  }
+
+  componentDidMount() {
+    fetch(stockUrl(this.props.stock.id), {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorized": `Bear ${localStorage.token}`
+      },
+        body: JSON.stringify({market_price: this.state.marketPrice})
+    })
   }
 
   buyShares = () => {
@@ -100,28 +120,16 @@ class StockCard extends React.Component {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data, this.props)
-        this
-          .props
-          .editStock(data.stock)
+        this.props.editStock(data.stock)
       })
-
     e.target.reset()
   }
 
   render() {
-    const cashValue = this.state.marketPrice * this
-      .props
-      .stock
-      .amount_of_shares
-      .toFixed(2)
-    const cost = this.props.stock.purchase_price * this
-      .props
-      .stock
-      .amount_of_shares
-      .toFixed(2)
-    return (
-      <Segment>
+    const cashValue = this.state.marketPrice * this.props.stock.amount_of_shares.toFixed(2)
+    const cost = this.props.stock.purchase_price * this.props.stock.amount_of_shares.toFixed(2)
+    return (this.state.isLoading?<Loading/>
+      :<Segment>
         <Grid columns={2} relaxed='very'>
           <Grid.Column>
             <Card>
@@ -155,18 +163,10 @@ class StockCard extends React.Component {
                   ? <Form onSubmit={this.tradeStock}>
                       <Form.Group widths='equal'>
                         <Form.Field>
-                          <Input
-                            fluid
-                            placeholder='amount of shares'
-                            name='shares'
-                            onChange={this.handleChange}/>
+                          <Input fluid placeholder='amount of shares' name='shares' onChange={this.handleChange}/>
                         </Form.Field>
                         <Form.Field>
-                          <Input
-                            fluid
-                            placeholder='price'
-                            name='purchasePrice'
-                            onChange={this.handleChange}/>
+                          <Input fluid placeholder='price' name='purchasePrice' onChange={this.handleChange}/>
                         </Form.Field>
                         <Form.Field>
                           <Button type='submit'>{this.state.buyStock
@@ -181,27 +181,23 @@ class StockCard extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <List>
-              {this
-                .state
-                .news
-                .map(news => <List.Item>
-                  <List.Content>
-                    <Image avatar src={news.image}/>                 
-                    <a href={news.url}>
-                      <b>{news.headline}</b>
-                    </a>
-                    <List.Description>
-                      {`${news
-                        .summary
-                        .substring(0, 100)}...`}
-                    </List.Description>
-                    <List.Header >Source: {news.source}</List.Header>
-                  </List.Content>
-                </List.Item>)}
+              {this.state.news.map(news => 
+              <List.Item>
+                <List.Content>
+                  <Image avatar src={news.image}/>                 
+                  <a href={news.url}>
+                    <b>{news.headline}</b>
+                  </a>
+                  <List.Description>
+                    {`${news.summary.substring(0, 100)}...`}
+                  </List.Description>
+                  <List.Header >Source: {news.source}</List.Header>
+                </List.Content>
+              </List.Item>)}
             </List>
           </Grid.Column>
         </Grid>
-        <Divider></Divider>
+        <Divider>Stock  News</Divider>
       </Segment>
     )
   }

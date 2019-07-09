@@ -55,13 +55,13 @@ ActiveRecord::Schema.define(version: 2019_07_05_160918) do
 
   create_table "stocks", force: :cascade do |t|
     t.string "symbol"
-    t.integer "market_price"
+    t.decimal "market_price"
     t.integer "amount_of_shares"
     t.string "company_name"
-    t.integer "purchase_price"
+    t.decimal "purchase_price"
     t.string "cost_item_name"
     t.text "description"
-    t.integer "cost"
+    t.decimal "cost"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

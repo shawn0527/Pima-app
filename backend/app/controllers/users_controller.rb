@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   def show
     current_user      
-    render json: @user
+    render json: {user: @user, stock_value: @user.total_stocks_value, realestate_value: @user.total_realestates_value}, status: :accepted
   end
 
   def create

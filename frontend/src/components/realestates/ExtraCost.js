@@ -3,6 +3,7 @@ import {Header, Modal, Form, Button, TextArea} from 'semantic-ui-react'
 import Cost from './Cost'
 import {connect} from 'react-redux'
 import {totalCost} from '../../actions/realEstates'
+import Loading from '../Loading'
 const costUrl = 'http://localhost:3000/costs'
 const deleteCostUrl = id => `http://localhost:3000/costs/${id}`
 const accounting = require('accounting')
@@ -70,7 +71,6 @@ class Costs extends React.Component {
       allCosts: this.state.allCosts.filter(cost => cost.id !== id),
       total: newTotal
     })})
-    .then(document.location.reload())
   }
 
   componentDidMount() {

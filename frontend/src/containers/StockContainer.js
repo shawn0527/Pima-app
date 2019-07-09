@@ -8,8 +8,9 @@ import {addStock} from '../actions/stocks'
 const stocksAPI = 'https://cloud.iexapis.com/stable/ref-data/symbols?token=pk_8af4c42d6c704ca299d89a50a46e0628'
 const stockUrl = 'http://localhost:3000/stocks'
 
+
 class Stock extends React.Component {
-    state = {}
+    state = {isLoading: true}
 
     componentDidMount() {
         fetch(stocksAPI, {
@@ -34,6 +35,7 @@ class Stock extends React.Component {
             .then(data => {
                 data.filter(stock => stock.user_id == localStorage.user_id).map(stock => this.props.addStock(stock))
             })
+            .then(this.setState({isLoading:false}))
         )
     }
 

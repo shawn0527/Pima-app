@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  Form,
-  Segment,
-  Grid,
-  Divider,
-  Container
-} from 'semantic-ui-react'
+import {Button, Form, Segment, Grid, Divider, Container} from 'semantic-ui-react'
 import {userLogin} from '../actions/users'
 import {connect} from 'react-redux'
 const url = 'http://localhost:3000/login'
@@ -16,6 +9,10 @@ class Login extends React.Component {
   state = {
     username: '',
     password: ''
+  }
+
+  componentWillMount() {
+   return !!localStorage.token?this.props.history.push(`/${localStorage.username}`):null
   }
 
   handleChange = e => {
@@ -39,7 +36,7 @@ class Login extends React.Component {
           localStorage.setItem('user_id', `${data.user.id}`)
           localStorage.setItem('username', data.user.username)
           localStorage.setItem('token', data.jwt_token)
-          this.props.history.push(`/${data.user.username}`)
+          window.location.reload()
         } else {
           this.props.history.push('/')
         }

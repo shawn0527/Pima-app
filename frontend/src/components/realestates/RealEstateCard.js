@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {sellRealEstate} from '../../actions/realEstates'
 import Costs from '../realestates/ExtraCost'
 import {Bar} from 'react-chartjs-2'
+import Loading from '../Loading'
 const accounting = require('accounting')
 const realEstateUrl = id => `http://localhost:3000/realestates/${id}`
 
@@ -55,9 +56,7 @@ class RealEstateCard extends React.Component {
             },
             body: JSON.stringify(this.state.realEstate)
         })
-    }
-
-    
+    }   
   }
 
   render() {
@@ -93,51 +92,49 @@ class RealEstateCard extends React.Component {
       }
     ]
     }
-    return (
-      <Segment>
+    return (this.props.realEstate === undefined?null
+      :<Segment>
         <Grid columns={2} relaxed='very'>
           <Grid.Column>
-          {this.props.realEstate !== undefined
-        ? <List>
-            <List.Item>
-              <List.Icon name='marker'/>
-              <List.Content>
-                <Form onSubmit={this.updateProperty}>
-                  <h2 color='red' size='mini'>{this.state.edit
+            <List>
+              <List.Item>
+                <List.Icon name='marker'/>
+                <List.Content>
+                  <Form onSubmit={this.updateProperty}>
+                    <h2 color='red' size='mini'>{this.state.edit
                       ? <Input size='mini' placeholder={`${name}`} name='name' onChange={this.handleREChange}/> 
                       : name}
-                  </h2>
-                  <h3>Address: {this.state.edit
+                    </h2>
+                    <h3>Address: {this.state.edit
                       ? <Input size='mini' placeholder={`${address}`} name='address' onChange={this.handleREChange}/>
                       : address}<br></br>
-                  </h3>
-                  <ul>Rent: {this.state.edit
+                    </h3>
+                    <ul>Rent: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(rent)}`} name='rent' onChange={this.handleREChange}/>
                       : accounting.formatMoney(rent)}/month</ul>
-                  <ul>Insurance: {this.state.edit
+                    <ul>Insurance: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(insurance)}`} name='insurance' onChange={this.handleREChange}/>
                       : accounting.formatMoney(insurance)}/year</ul>
-                  <ul>Tax: {this.state.edit
+                    <ul>Tax: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(tax)}`} name='tax' onChange={this.handleREChange}/>
                       : accounting.formatMoney(tax)}/year</ul>
-                  <List as='ol'>
-                    <Costs real_estate_id={this.state.realEstate.id}/>
-                  </List>
-                  <ul>Acquisition Cost: {this.state.edit
+                    <List as='ol'>
+                      <Costs real_estate_id={this.state.realEstate.id}/>
+                    </List>
+                    <ul>Acquisition Cost: {this.state.edit
                       ? <Input size='mini' placeholder={`${accounting.formatMoney(cost)}`} name='cost' onChange={this.handleREChange}/>
                       : accounting.formatMoney(cost)}</ul>
-                  <strong>Annual Net Income: {accounting.formatMoney(netIncome)}</strong><br></br>
-                  <strong>ROI: {roi}%</strong><br></br>                   
-                  <Button.Group>
-                    <Button positive onClick={this.edit}>{this.state.edit?'Save':'Edit'}</Button>
-                    <Button.Or/>
-                    <Button onClick={this.sell}>Sold</Button>
-                  </Button.Group>
-                </Form>
+                    <strong>Annual Net Income: {accounting.formatMoney(netIncome)}</strong><br></br>
+                    <strong>ROI: {roi}%</strong><br></br>                   
+                    <Button.Group>
+                      <Button positive onClick={this.edit}>{this.state.edit?'Save':'Edit'}</Button>
+                      <Button.Or/>
+                      <Button onClick={this.sell}>Sold</Button>
+                    </Button.Group>
+                  </Form>
                 </List.Content>
-            </List.Item>
-          </List>
-          : null}
+              </List.Item>
+            </List>
           </Grid.Column>
           <Grid.Column>
             <Bar data={data} width={100} height={50} />

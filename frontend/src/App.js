@@ -11,26 +11,23 @@ import RealEstate from './containers/RealEstateContainer'
 import Investment from './containers/InvestmentContainer'
 
 class App extends React.Component {
-  state={
-    user: {}
-  }
 
   render() {
     return (
-      <Router>
-        <React.Fragment>
+      <div>
         <NavBar/>
-        <Switch>
-          <Route exact path='/' component={Index}/>
-          <Route exact path='/login' component={Login}/>
-          <Route exact path='/register' component={Register}/>
-          <Route exact path='/:username' component={HomePage}/>
-          <Route exact path='/:username/stocks' component={Stock}/>
-          <Route exact path='/:username/realestates' component={RealEstate}/>
-          <Route exact path='/:username/investments' component={Investment}/>
-        </Switch>
-        </React.Fragment>
-      </Router>
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Index}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/register' component={Register}/>
+            <Route exact path='/:username' component={HomePage}/>
+            <Route exact path='/:username/stocks' component={Stock}/>
+            <Route exact path='/:username/realestates' component={RealEstate}/>
+            <Route exact path='/:username/investments' component={Investment}/>
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }

@@ -1,14 +1,13 @@
 import React from 'react'
 import RealEstateList from '../components/realestates/RealEstateList'
-import RealEstateCard from '../components/realestates/RealEstateCard'
 import RealEstateLocation from '../components/realestates/RealEstatesLocation'
 import RealEstateForm from '../components/realestates/RealEstateForm'
 import {allRealEstates} from '../actions/realEstates'
 import {connect} from 'react-redux'
+import Loading from '../components/Loading'
 const realEstatesUrl = 'http://localhost:3000/realestates'
 
 class RealEstate extends React.Component {
-
     componentDidMount() {
         fetch(realEstatesUrl, {
             method: 'GET',
@@ -25,12 +24,12 @@ class RealEstate extends React.Component {
 
     render() {
         return(
-            <div>
-                <h1>RealEstate</h1>
-                <RealEstateForm/>
-                <RealEstateLocation/>
-                <RealEstateList/> 
-            </div>
+        <div>
+            <h1>RealEstate</h1>
+            <RealEstateForm/>
+            <RealEstateLocation/>
+            <RealEstateList/> 
+        </div>
         )
     }
 }
