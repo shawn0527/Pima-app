@@ -143,7 +143,7 @@ class RealEstateCard extends React.Component {
             <Bar data={data} width={100} height={50} />
           </Grid.Column>
         </Grid>
-        <Divider vertical>KPI =></Divider>
+        <Divider vertical>=></Divider>
       </Segment>
     )
   }

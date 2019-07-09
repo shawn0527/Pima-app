@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 
   get '/costs', to: 'costs#index'
   post '/costs', to: 'costs#create'
+  delete '/costs/:id', to: 'costs#destroy'
 
   # get '/otherinvestments', to: 'other_investments#index'
   # get '/otherinvestments/:id', to: 'other_investments#show'

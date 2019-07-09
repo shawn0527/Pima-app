@@ -4,6 +4,7 @@ import Cost from './Cost'
 import {connect} from 'react-redux'
 import {totalCost} from '../../actions/realEstates'
 const costUrl = 'http://localhost:3000/costs'
+const deleteCostUrl = id => `http://localhost:3000/costs/${id}`
 const accounting = require('accounting')
 const realEstateUrl = id => `http://localhost:3000/realestates/${id}`
 
@@ -54,11 +55,23 @@ class Costs extends React.Component {
     e.target.reset()
   }
 
-  // addCostItem = () => {
-  //   this.setState({
-  //     addExtraCost: !this.state.addExtraCost
-  //   })
-  // }
+  deleteCost = id => {
+    fetch(deleteCostUrl(id), {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+        'Authorized': `Bear ${localStorage.token}`
+      }
+    })
+    .then(() => {
+      let deletedCost = this.state.allCosts.find(cost => cost.id === id)
+      let newTotal = this.state.total - deletedCost.cost
+      this.setState({
+      allCosts: this.state.allCosts.filter(cost => cost.id !== id),
+      total: newTotal
+    })})
+    .then(document.location.reload())
+  }
 
   componentDidMount() {
     fetch(costUrl, {
@@ -85,7 +98,7 @@ class Costs extends React.Component {
   }
 
   render() {
-    const costs = this.state.allCosts.map(cost => <Cost key={cost.id} cost={cost}/>)
+    const costs = this.state.allCosts.map(cost => <Cost deleteCost={this.deleteCost} key={cost.id} cost={cost}/>)
     return (
       <ul><strong>Other Cost: {accounting.formatMoney(this.state.total)}</strong><Button circular primary onClick={this.showDetail}>Details</Button>
         {this.state.detail?costs:null}

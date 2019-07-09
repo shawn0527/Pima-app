@@ -43,7 +43,7 @@ class Stock extends React.Component {
                 Stocks
                 <StockSearch/>
                 <MyStocks/>
-                <WatchedStocks/>
+                {/* <WatchedStocks/> */}
             </div>
         )
     }
