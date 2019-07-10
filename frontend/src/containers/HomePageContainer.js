@@ -1,12 +1,15 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import {Segment, Grid, Table, Divider} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {Pie} from 'react-chartjs-2'
+import Loading from '../components/Loading'
+const accounting = require('accounting')
 
 class HomePage extends React.Component {
   state = {
     stockValue: 0,
-    realEstateValue: 0
+    realEstateValue: 0,
+    isLoading: true
   }
 
   componentDidMount() {
@@ -24,7 +27,8 @@ class HomePage extends React.Component {
         .then(data => {
           this.setState({
             stockValue: data.stock_value,
-            realEstateValue: data.realestate_value
+            realEstateValue: data.realestate_value,
+            isLoading: false
           })
         })
     }
@@ -51,21 +55,60 @@ class HomePage extends React.Component {
         ]
       }]
     };
-    return (
-      <div>
-        HomePage
-        <h1>{this.props.userData.user !== undefined?this.props.userData.user.firstname:null}</h1>
-        <p>table</p>
-        <h2>Portfolio</h2>
-        <Pie data={data}/>
-        <p>total amount</p>
-        <p>CPI</p>
-        <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/stocks`:'/'}>Stock</NavLink>
-        <br></br>
-        <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/realestates`:'/'}>RealEstate</NavLink>
-        <br></br>
-        <NavLink to='/:username/investments'>Investment</NavLink>
-      </div>
+    return (this.state.isLoading?<Loading/>
+        :<div class='home-page'>
+        <Segment>
+          <Grid columns={2} relaxed='very'>
+            <Grid.Column>
+              <h2>Portfolio</h2>
+              <Pie data={data}/>
+            </Grid.Column>
+            <Grid.Column>
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Investment Name</Table.HeaderCell>
+                    <Table.HeaderCell>Current Cash Value</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>Stocks</Table.Cell>
+                    <Table.Cell>{accounting.formatMoney(this.state.stockValue)}</Table.Cell>
+                    <Table.Cell selectable>
+                      <a href='#'></a>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Real Estates</Table.Cell>
+                    <Table.Cell>{accounting.formatMoney(this.state.realEstateValue)}</Table.Cell>
+                    <Table.Cell selectable>
+                      <a href='#'></a>
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell>Other Investment</Table.Cell>
+                    <Table.Cell>{accounting.formatMoney(10000)}</Table.Cell>
+                    <Table.Cell selectable>
+                      <a href='#'></a>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </Grid.Column>
+          </Grid>
+          <Divider horizontal></Divider>
+        </Segment>
+        </div>
+      //   {/* <p>total amount</p>
+      //   <p>CPI</p>
+      //   <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/stocks`:'/'}>Stock</NavLink>
+      //   <br></br>
+      //   <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/realestates`:'/'}>RealEstate</NavLink>
+      //   <br></br>
+      //   <NavLink to='/:username/investments'>Investment</NavLink>
+      // </div> */}
     )
   }
 }

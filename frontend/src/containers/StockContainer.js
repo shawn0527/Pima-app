@@ -41,7 +41,7 @@ class Stock extends React.Component {
 
     render() {
         return(
-            <div>
+            <div class='stock-page'>
                 Stocks
                 <StockSearch/>
                 <MyStocks/>

@@ -39,26 +39,13 @@ class Register extends React.Component {
 
   render() {
     return (
+      <div class='register-page'>
       <Container>
         <Form onSubmit={e => this.register(e)}>
           <Form.Group unstackable widths={2}>
-            <Form.Input
-              label='Username'
-              placeholder='Username'
-              name='username'
-              onChange={(e) => this.handleChange(e)}/>
-            <Form.Input
-              label='Password'
-              type='password'
-              placeholder='Password'
-              name='password'
-              onChange={(e) => this.handleChange(e)}/>
-            <Form.Input
-              label='Password Confirmation'
-              type='password'
-              placeholder='Re-enter Password'
-              name='password_confirmation'
-              onChange={(e) => this.handleChange(e)}/>
+            <Form.Input label='Username' placeholder='Username' name='username' onChange={(e) => this.handleChange(e)}/>
+            <Form.Input label='Password' type='password' placeholder='Password' name='password' onChange={(e) => this.handleChange(e)}/>
+            <Form.Input label='Password Confirmation' type='password' placeholder='Re-enter Password' name='password_confirmation' onChange={(e) => this.handleChange(e)}/>
           </Form.Group>
           <Form.Group unstackable widths={2}>
             <Form.Input label='First name' name='firstname' placeholder='First name' onChange={(e) => this.handleChange(e)}/>
@@ -86,6 +73,7 @@ class Register extends React.Component {
           <Button type='submit'>Submit</Button>
         </Form>
       </Container>
+      </div>
     )
   }
 }
