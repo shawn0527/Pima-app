@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment, Grid, Divider, Form, Input, Card, Button, Image, List } from 'semantic-ui-react'
+import { Segment, Grid, Form, Input, Card, Button, Image, List } from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {editStock} from '../../actions/stocks'
 import Loading from '../Loading'
@@ -197,7 +197,6 @@ class StockCard extends React.Component {
             </List>
           </Grid.Column>
         </Grid>
-        <Divider>Stock  News</Divider>
       </Segment>
     )
   }

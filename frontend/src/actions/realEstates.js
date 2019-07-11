@@ -34,3 +34,11 @@ export const totalCost = (id, cost) => {
         cost
     }
 }
+
+export const deleteCost = (id, cost) => {
+    return {
+        type: 'DELETE_COST',
+        id,
+        cost
+    }
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import {Header, Modal, Form, Button, TextArea} from 'semantic-ui-react'
 import Cost from './Cost'
 import {connect} from 'react-redux'
-import {totalCost} from '../../actions/realEstates'
+import {totalCost, deleteCost} from '../../actions/realEstates'
 // import Loading from '../Loading'
 const costUrl = 'http://localhost:3000/costs'
 const deleteCostUrl = id => `http://localhost:3000/costs/${id}`
@@ -67,10 +67,12 @@ class Costs extends React.Component {
     .then(() => {
       let deletedCost = this.state.allCosts.find(cost => cost.id === id)
       let newTotal = this.state.total - deletedCost.cost
+      this.props.deleteCost(deletedCost.real_estate_id, deletedCost.cost)
       this.setState({
       allCosts: this.state.allCosts.filter(cost => cost.id !== id),
       total: newTotal
-    })})
+    })
+  })
   }
 
   componentDidMount() {
@@ -120,4 +122,4 @@ class Costs extends React.Component {
   }
 }
 
-export default connect(null, {totalCost})(Costs)
+export default connect(null, {totalCost, deleteCost})(Costs)

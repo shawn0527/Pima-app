@@ -9,9 +9,13 @@ export default (state = {realEstates: []}, action) => {
         case 'SELL_REALESTATE':
             return {...state, realEstates: state.realEstates.filter(realEstate => realEstate.id !== action.id)}
         case 'TOTAL':
-            let realEstate = state.realEstates.filter(realEstate => realEstate.id === action.id)[0]
+            let realEstate = state.realEstates.find(realEstate => realEstate.id === action.id)
             realEstate.total = action.cost
             return {...state, realEstates: [...state.realEstates.filter(realEstate => realEstate.id !== action.id), realEstate]}
+        case 'DELETE_COST':
+            let theRealEstate = state.realEstates.find(realEstate => realEstate.id === action.id)
+            theRealEstate.total -= action.cost
+            return {...state, realEstates: [...state.realEstates.filter(realEstate => realEstate.id !== action.id), theRealEstate]}
         default:
             return state
     }
