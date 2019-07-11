@@ -35,6 +35,7 @@ class HomePage extends React.Component {
   }
 
   render() {
+    document.body.setAttribute('class', 'home-page')
     const data = {
       labels: [
         'Stocks',
@@ -56,8 +57,7 @@ class HomePage extends React.Component {
       }]
     };
     return (this.state.isLoading?<Loading/>
-        :<div class='home-page'>
-        <Segment>
+        :<Segment>
           <Grid columns={2} relaxed='very'>
             <Grid.Column>
               <h2>Portfolio</h2>
@@ -100,15 +100,6 @@ class HomePage extends React.Component {
           </Grid>
           <Divider horizontal></Divider>
         </Segment>
-        </div>
-      //   {/* <p>total amount</p>
-      //   <p>CPI</p>
-      //   <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/stocks`:'/'}>Stock</NavLink>
-      //   <br></br>
-      //   <NavLink to={localStorage.username !== undefined?`/${localStorage.username}/realestates`:'/'}>RealEstate</NavLink>
-      //   <br></br>
-      //   <NavLink to='/:username/investments'>Investment</NavLink>
-      // </div> */}
     )
   }
 }

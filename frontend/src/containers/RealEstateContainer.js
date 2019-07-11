@@ -4,7 +4,7 @@ import RealEstateLocation from '../components/realestates/RealEstatesLocation'
 import RealEstateForm from '../components/realestates/RealEstateForm'
 import {allRealEstates} from '../actions/realEstates'
 import {connect} from 'react-redux'
-import Loading from '../components/Loading'
+import {Container} from 'semantic-ui-react'
 const realEstatesUrl = 'http://localhost:3000/realestates'
 
 class RealEstate extends React.Component {
@@ -23,12 +23,14 @@ class RealEstate extends React.Component {
     }
 
     render() {
+        document.body.setAttribute('class', 'rental-page')
         return(
-        <div class='rental-page'>
-            <h1>RealEstate</h1>
-            <RealEstateForm/>
-            <RealEstateLocation/>
-            <RealEstateList/> 
+        <div>
+            <Container>
+                <RealEstateForm/>
+                <RealEstateLocation/>
+                <RealEstateList/>
+            </Container> 
         </div>
         )
     }

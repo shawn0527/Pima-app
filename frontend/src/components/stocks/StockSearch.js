@@ -8,19 +8,15 @@ const initialState = { isLoading: false, results: [], value: '' }
 class StockSearch extends Component {
   state = initialState
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.symbol })
+  handleResultSelect = (e, { result }) => this.setState({ value: result.name })
 
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value })
-
     setTimeout(() => {
       const source = this.props.allStocks
       if (this.state.value.length < 1) return this.setState(initialState)
-
       const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = result => re.test(result.symbol)
-
-      console.log(this.props.allStocks)
+      const isMatch = result => re.test(result.name)
       this.setState({
         isLoading: false,
         results: this.format(_.filter(source, isMatch).slice(0,5)),
@@ -31,13 +27,15 @@ class StockSearch extends Component {
   format = array => {
     return array.map(stock => {
       return {
-        'title': stock.symbol
+        'title': stock.symbol,
+        'description': stock.name
       }
     })
   }
 
   render() {
     const { isLoading, value, results } = this.state
+    document.body.setAttribute('class', 'stock-page')
     return (
       <Grid>
         <Grid.Column width={6}>
@@ -50,21 +48,9 @@ class StockSearch extends Component {
             })}
             results={results}
             value={value}
-            // {...this.props}
+            {...this.props}
           />
         </Grid.Column>
-        {/* <Grid.Column width={10}>
-          <Segment>
-            <Header>State</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify(this.state, null, 2)}
-            </pre>
-            <Header>Options</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify(source, null, 2)}
-            </pre>
-          </Segment>
-        </Grid.Column> */}
       </Grid>
     )
   }

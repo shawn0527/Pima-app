@@ -1,5 +1,4 @@
 import React from 'react'
-import About from './About'
 
 const Intro = () => {
     return(
@@ -10,10 +9,6 @@ const Intro = () => {
                 <p>This is Shawn Ren's final project. Personal Investment Management App, it can record your personal investmentssuch as stocks and realestates and more later on, stay tuned!</p>
                 <a href='/register'>Get Start</a>
             </div>
-            {/* <img style={{height: '100vh', width: '100%'}} src={homeImg}/> */}
-        </div>
-        <div class='text'>
-        <p>asdbjksafsadjfask</p>
         </div>
         </React.Fragment>
     )

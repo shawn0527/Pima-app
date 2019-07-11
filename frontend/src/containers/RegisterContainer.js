@@ -38,10 +38,10 @@ class Register extends React.Component {
   }
 
   render() {
+    document.body.setAttribute('class', 'register-page')
     return (
-      <div class='register-page'>
-      <Container>
-        <Form onSubmit={e => this.register(e)}>
+      <Container className='register-box'>
+        <Form className='register-form' onSubmit={e => this.register(e)}>
           <Form.Group unstackable widths={2}>
             <Form.Input label='Username' placeholder='Username' name='username' onChange={(e) => this.handleChange(e)}/>
             <Form.Input label='Password' type='password' placeholder='Password' name='password' onChange={(e) => this.handleChange(e)}/>
@@ -70,10 +70,9 @@ class Register extends React.Component {
             <Form.Input label='Zip Code' placeholder='Zip Code'/>
           </Form.Group>
           <Form.Checkbox label='I agree to the Terms and Conditions'/>
-          <Button type='submit'>Submit</Button>
+          <Button className='register-btn' type='submit'>Submit</Button>
         </Form>
       </Container>
-      </div>
     )
   }
 }

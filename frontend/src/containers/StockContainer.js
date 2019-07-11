@@ -40,9 +40,9 @@ class Stock extends React.Component {
     }
 
     render() {
+        document.body.setAttribute('class', 'stock-page')
         return(
-            <div class='stock-page'>
-                Stocks
+            <div>
                 <StockSearch/>
                 <MyStocks/>
                 {/* <WatchedStocks/> */}
