@@ -9,8 +9,7 @@ class MyStocks extends React.Component {
     const myStocks = this.props.myStocks.map(stock => <StockCard key={stock.id} stock={stock}/>)
     return (
       <Container>
-        <h1>My Stocks</h1>
-        <Modal trigger={<Button positive>Add Stock </Button>} basic size='small' closeIcon>
+        <Modal style={{position: 'absolute',top: '36%',left: '30%'}} trigger={<Button positive>Add Stock</Button>} basic size='small' closeIcon>
           <Header icon='chart line' content='Add Stock'/>
           <Modal.Content>
             <StockForm/>

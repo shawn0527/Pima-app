@@ -9,6 +9,8 @@ class HomePage extends React.Component {
   state = {
     stockValue: 0,
     realEstateValue: 0,
+    otherInvestmentValue: 0,
+    totalValue: 0,
     isLoading: true
   }
 
@@ -28,6 +30,8 @@ class HomePage extends React.Component {
           this.setState({
             stockValue: data.stock_value,
             realEstateValue: data.realestate_value,
+            otherInvestmentValue: data.other_investment_value!==undefined?data.other_investment_value:50000,
+            totalValue: data.stock_value + data.realestate_value + 50000,
             isLoading: false
           })
         })
@@ -43,7 +47,7 @@ class HomePage extends React.Component {
         'Other Investments'
       ],
       datasets: [{
-        data: [this.state.stockValue, this.state.realEstateValue, 100000],
+        data: [this.state.stockValue, this.state.realEstateValue, this.state.otherInvestmentValue],
         backgroundColor: [
         '#FF6384',
         '#36A2EB',
@@ -64,6 +68,7 @@ class HomePage extends React.Component {
               <Pie data={data}/>
             </Grid.Column>
             <Grid.Column>
+              <Grid.Column>
               <Table celled>
                 <Table.Header>
                   <Table.Row>
@@ -89,16 +94,22 @@ class HomePage extends React.Component {
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Other Investment</Table.Cell>
-                    <Table.Cell>{accounting.formatMoney(10000)}</Table.Cell>
+                    <Table.Cell>{accounting.formatMoney(this.state.otherInvestmentValue)}</Table.Cell>
                     <Table.Cell selectable>
                       <a href='#'></a>
                     </Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
+              </Grid.Column>
+              <Divider horizontal>a</Divider>
+              <Grid.Column>
+                <h1>Total Value</h1>
+                <h1>{accounting.formatMoney(this.state.totalValue)}</h1>
+              </Grid.Column>  
             </Grid.Column>
           </Grid>
-          <Divider horizontal></Divider>
+          <Divider vertical>b</Divider>
         </Segment>
     )
   }
