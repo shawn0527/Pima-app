@@ -60,6 +60,7 @@ class HomePage extends React.Component {
         ]
       }]
     };
+
     return (this.state.isLoading?<Loading/>
         :<Segment>
           <Grid columns={2} relaxed='very'>
@@ -74,42 +75,42 @@ class HomePage extends React.Component {
                   <Table.Row>
                     <Table.HeaderCell>Investment Name</Table.HeaderCell>
                     <Table.HeaderCell>Current Cash Value</Table.HeaderCell>
-                    <Table.HeaderCell></Table.HeaderCell>
+                    {/* <Table.HeaderCell></Table.HeaderCell> */}
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell>Stocks</Table.Cell>
                     <Table.Cell>{accounting.formatMoney(this.state.stockValue)}</Table.Cell>
-                    <Table.Cell selectable>
+                    {/* <Table.Cell selectable>
                       <a href='#'></a>
-                    </Table.Cell>
+                    </Table.Cell> */}
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Real Estates</Table.Cell>
                     <Table.Cell>{accounting.formatMoney(this.state.realEstateValue)}</Table.Cell>
-                    <Table.Cell selectable>
+                    {/* <Table.Cell selectable>
                       <a href='#'></a>
-                    </Table.Cell>
+                    </Table.Cell> */}
                   </Table.Row>
                   <Table.Row>
                     <Table.Cell>Other Investment</Table.Cell>
                     <Table.Cell>{accounting.formatMoney(this.state.otherInvestmentValue)}</Table.Cell>
-                    <Table.Cell selectable>
+                    {/* <Table.Cell selectable>
                       <a href='#'></a>
-                    </Table.Cell>
+                    </Table.Cell> */}
                   </Table.Row>
                 </Table.Body>
               </Table>
               </Grid.Column>
-              <Divider horizontal>a</Divider>
+              <Divider horizontal>||</Divider>
               <Grid.Column>
                 <h1>Total Value</h1>
                 <h1>{accounting.formatMoney(this.state.totalValue)}</h1>
               </Grid.Column>  
             </Grid.Column>
           </Grid>
-          <Divider vertical>b</Divider>
+          <Divider vertical>=></Divider>
         </Segment>
     )
   }

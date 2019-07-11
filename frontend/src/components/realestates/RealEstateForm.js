@@ -3,7 +3,7 @@ import {Header, Form, Button, TextArea, Modal} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {addRealEstate} from '../../actions/realEstates'
 const newProperty = 'http://localhost:3000/realestates'
-const locationUrl = address => `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDbTzDkksixhTeQ6RTcsuivx8TtQfR2nkE`
+// const locationUrl = address => `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDbTzDkksixhTeQ6RTcsuivx8TtQfR2nkE`
 
 class RealEstateForm extends React.Component {
 
@@ -35,8 +35,8 @@ class RealEstateForm extends React.Component {
 
   render() {
     return (
-      <Modal trigger={<Button positive>Add New Property</Button>} closeIcon basic size='small'>
-        <Header icon='archive' content='Archive Old Messages' />
+      <Modal style={{position: 'absolute',top: '36%',left: '30%'}} trigger={<Button positive>Add New Property</Button>} closeIcon basic size='small'>
+        <Header icon='home' content='Add New Property' />
         <Modal.Content>
           <Form onSubmit={this.addNewProperty}>
             <Form.Group widths={2}>

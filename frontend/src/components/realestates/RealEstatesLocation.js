@@ -4,7 +4,7 @@ class RealEstateLocation extends React.Component {
     render() {
         return(
             <div>
-                RealEstateLocation
+                {/* RealEstateLocation */}
             </div>
         )
     }

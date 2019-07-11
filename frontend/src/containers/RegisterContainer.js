@@ -13,7 +13,6 @@ class Register extends React.Component {
   }
 
   register = e => {
-    e.preventDefault()
     fetch(url, {
       method: 'POST',
       headers: {
@@ -33,7 +32,11 @@ class Register extends React.Component {
       .then(res => res.json())
       .then(data => {
         this.props.userLogin(data)
-        return this.props.history.push(`/users/${data.user.username}`)
+        localStorage.setItem('user_id', `${data.user.id}`)
+        localStorage.setItem('username', data.user.username)
+        localStorage.setItem('token', data.jwt_token)
+        this.props.history.push(`/${data.user.username}`)
+        window.location.reload()
     })
   }
 
@@ -70,7 +73,7 @@ class Register extends React.Component {
             <Form.Input label='Zip Code' placeholder='Zip Code'/>
           </Form.Group>
           <Form.Checkbox label='I agree to the Terms and Conditions'/>
-          <Button className='register-btn' type='submit'>Submit</Button>
+          <Button className='register-btn' type='submit'>Sign up</Button>
         </Form>
       </Container>
     )

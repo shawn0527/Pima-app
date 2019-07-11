@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {sellRealEstate} from '../../actions/realEstates'
 import Costs from '../realestates/ExtraCost'
 import {Bar} from 'react-chartjs-2'
-import Loading from '../Loading'
 const accounting = require('accounting')
 const realEstateUrl = id => `http://localhost:3000/realestates/${id}`
 
@@ -90,8 +89,8 @@ class RealEstateCard extends React.Component {
         borderColor: 'rgb(0,191,255)',
         data: [roi*100] 
       }
-    ]
-    }
+    ]}
+
     return (this.props.realEstate === undefined?null
       :<Segment>
         <Grid columns={2} relaxed='very'>

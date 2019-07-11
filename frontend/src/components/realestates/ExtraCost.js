@@ -3,7 +3,7 @@ import {Header, Modal, Form, Button, TextArea} from 'semantic-ui-react'
 import Cost from './Cost'
 import {connect} from 'react-redux'
 import {totalCost} from '../../actions/realEstates'
-import Loading from '../Loading'
+// import Loading from '../Loading'
 const costUrl = 'http://localhost:3000/costs'
 const deleteCostUrl = id => `http://localhost:3000/costs/${id}`
 const accounting = require('accounting')
@@ -102,7 +102,7 @@ class Costs extends React.Component {
     return (
       <ul><strong>Other Cost: {accounting.formatMoney(this.state.total)}</strong><Button circular primary onClick={this.showDetail}>Details</Button>
         {this.state.detail?costs:null}
-        <Modal trigger={<Button circular primary>add cost</Button>} closeIcon basic size='small'>
+        <Modal style={{position: 'absolute',top: '36%',left: '30%'}} trigger={<Button circular primary>add cost</Button>} closeIcon basic size='small'>
             <Header icon='dollar' content='Add Cost'/>
             <Modal.Content>
               <Form onSubmit={this.addCost}>

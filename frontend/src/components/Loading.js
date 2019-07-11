@@ -5,8 +5,8 @@ export default class Loading extends React.Component {
         return(
             <div class='loading'>
                 <span class='s1'></span>
-                    <span class='s2'></span>
-                        <span class='s3'></span>
+                <span class='s2'></span>
+                <span class='s3'></span>
             </div>
         )
     }

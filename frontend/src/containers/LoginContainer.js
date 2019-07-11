@@ -1,5 +1,4 @@
 import React from 'react'
-import {Button, Form, Segment, Grid, Divider, Container} from 'semantic-ui-react'
 import {userLogin} from '../actions/users'
 import {connect} from 'react-redux'
 const url = 'http://localhost:3000/login'
@@ -58,25 +57,6 @@ class Login extends React.Component {
         </div>
         <input class='btn' onClick={this.login} type='submit' value='Log In'/>
       </div>
-      // <div class='login-page'>
-      // <Container style={{margin: '100px'}}>
-      //   <Segment placeholder>
-      //     <Grid columns={2} relaxed='very' stackable>
-      //       <Grid.Column>
-      //         <Form onSubmit={this.login}>
-      //           <Form.Input icon='user' iconPosition='left' label='Username' placeholder='Username' name='username' onChange={e => this.handleChange(e)}/>
-      //           <Form.Input icon='lock' iconPosition='left' label='Password' type='password' placeholder='Password' name='password' onChange={e => this.handleChange(e)}/>
-      //           <Button content='Login' type='submit' primary/>
-      //         </Form>
-      //       </Grid.Column>
-      //       <Grid.Column verticalAlign='middle'>
-      //         <Button content='Sign up' icon='signup' size='big' onClick={() => this.props.history.push('/register')}/>
-      //       </Grid.Column>
-      //     </Grid>
-      //     <Divider vertical>Or</Divider>
-      //   </Segment>
-      // </Container>
-      // </div>
     )
   }
 }
