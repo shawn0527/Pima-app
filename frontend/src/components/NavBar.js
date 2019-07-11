@@ -1,12 +1,11 @@
 import React from 'react'
-import {Navbar, Nav} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
 class NavBar extends React.Component {
   render() {
       return (
         <div class='headers'>
-          <h2 class='logo'>DarkCode</h2>
+          <h2 class='logo'>Pima</h2>
           <input type='checkbox' id='chk' />
           <label for='chk' class='show-menu-btn'>
             <i class='fas fa-ellipsis-h'></i>
