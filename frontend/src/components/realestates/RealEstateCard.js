@@ -72,7 +72,7 @@ class RealEstateCard extends React.Component {
     const data = {
       labels: ['Unit: $1000 for AC, $1 for MCF, 0.01% for ROI'],
       datasets: [{
-        label: 'Aqusition Cost',
+        label: 'Acquisition Cost',
         backgroundColor: 'rgb(255, 99, 123)',
         borderColor: 'rgb(255, 99, 123)',
         data: [-cost/1000]

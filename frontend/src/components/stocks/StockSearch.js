@@ -66,7 +66,7 @@ class StockSearch extends Component {
     const { isLoading, value, results } = this.state
     document.body.setAttribute('class', 'stock-page')
     return (
-      <Grid style={{position: 'relative',top: '36%',left: '30%'}}>
+      <Grid style={{position: 'absolute',left: '40%'}}>
         <Grid.Column width={6}>
           <Search
             aligned='right'
