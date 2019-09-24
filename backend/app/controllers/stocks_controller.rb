@@ -6,10 +6,6 @@ class StocksController < ApplicationController
   
     def show
       @stock = Stock.find(params[:id])
-      # @data = {
-      #   method: 'get',
-      #   data: @user
-      # }
       render json: @stock
     end
   
@@ -20,7 +16,12 @@ class StocksController < ApplicationController
       @stock.save
       render json:{ stock: StockSerializer.new(@stock)}, status: :accepted
     end
-  
+    
+    
+    ******************************************************************************************************************
+    # Highlighted proud codes: I build a a method in controller to handle the calculation of stocks prices, where the values I 
+    # got from frontend are different, I need to change them to the right format
+    
     def update
       @stock = Stock.find(params[:id])
       if params[:trade] == 'buy'
@@ -37,6 +38,8 @@ class StocksController < ApplicationController
       @stock.save
       render json: {stock: StockSerializer.new(@stock)}, status: :accepted
     end
+    
+    ***********************************************************************************************************************
 
     def destroy
         @stock = Stock.find(params[:id])
